@@ -1,0 +1,505 @@
+** V-Scope Realtime 3D Engine ** History **
+
+Ordner der neuen Engine:
+g:\dev\Eigene Sources\the new v-scope\vscope engine\source
+Ordner der alten Engine:
+g:\dev\Eigene Sources\v-scope\v-scope engine library\Source
+
+TODO:
+-	Neues FTB-Tool: Dateien nicht in Header-Datei parsen, sondern malloc(), memcpy(), free()
+	Konstrukte verwenden. Langen, langsamen Code erzeugen, dafür Compilerfreundlich.
+-	defx-Logo als Standardtextur einbinden.
+-	Unterschiedliche Textur-Mapping-Arten für Spheres und Domes implementieren
+-	Serialize(), SerializeXML(), GetHashcode(), ...
+-	Environment Mapping für Skybox?
+-	VertexBuffer-Proxy übernehmen
+-	SkyDome-Frustrum-Detection
+-	DomeLOD!
+-	prefetching für MMX einbinden
+-	Perlin Noise-Code überarbeiten, Textur in Graustufen erzeugen (Multitexturing!)
+	Code ist "G:\#Programmierung\perlin_src.zip"
+-	Compression-Funktionen einbinden
+-	QuickSort() und RadixSort() einbinden
+-	TEXTURE-Klasse einbinden (ermöglicht selbständinges release)
+-	Textur-Ladefunktionen für JPEG, BMP, TGA, ...
+-	TEXTURE-Manager einbinden (Textur-ID, ...)
+	Texturen setzen nur noch über den Manager, Multitexturing bedenken! Alphablending!
+-	Funktion für "Plane"-Primitive (Quads, für Wände, etc.)
+-	Vektor- und Matrixfunktionen noch einmal überarbeiten. Missverständlich
+-	"Freie Funktionen" (normalize(v), dot(a, b), etc) einbinden
+-	Kamera-LookAt() - den Differenzvektor Position-At Normalisieren!
+	Was geschieht, wenn ich von p(0;0;0) auf a(0;0;0) blicken will...?
+-	MATERIAL-Klasse einbinden,
+	MATERIAL-Manager konstruieren (Materialien über Pointer und/oder IDs)
+-	Kamera-Funktion SetAngle() einbinden
+-	MEMMANAGER überprüfen, reinterpret_cast-Fehler?
+-	Weniger Kaffee trinken!
+-	FireEffect-Klasse optimieren und übernehmen.
+-	Berechnungsfunktion kann verbessert werden.
+-	Überprüfung auf 8-Bit-Texturen!
+-	Skybox RenderOT()-Funktionen: OverrideTexture, ermöglicht
+	das Verwenden einer einzigen Textur auf der gesamten Skybox.
+-	in general: directinput-wrapper (keyboard, mouse, ...)
+-	stringklasse (und optimieren!)
+-	Funktionen für Polygon-Intersection-Tests
+-	Bounding Box --> Bounding Sphere und anders herum
+-	GetBSPHERE für Triangle3
+-	Min und Max Points für Triangle3 (direkt in Struktur)
+-	Projektion für Vektor4, Kreuzprodukt für Vektor4
+-	rdtsc-timer
+-	TextureWarpEffect
+-	JiggleTexEffect (Text@100 Alpha vorne, Text@50 Alpha hinten, stretched, springend)
+-	CImageManipulator aus dem Special Effects Buch mopsen
+-	2D-Effekte möchten optimiert werde: 2 Loops zu einer do-while-Schleife!
+	Addition statt Multiplikation wo geht!
+-	Memory Management klonen!
+-	Coffee Cup endlich mal schreiben!
+-	Laterne schreiben, Glowmap mit der Bewegung über den Boden ziehen!
+
+2003-07-26 14:39 MMT
+-	Fix: Zentrumsberechnung des Polygons korrigiert (von scale(0.5) auf scale(1/Anzahl))
+
+2003-07-24 17:10 MMT
+-	Neu: MATERIAL- und D3DMATERIAL9-Unterstützung für Pipe
+-	Neu: MATERIAL bekam automatische ID-Vergabe
+-	Neu: Lighting-Unterstützung für Pipe (Select~Enabled, Ambient, ...())
+-	Neu: Normalen-Normalisierung wird nun automatisch beim Erstellen der Pipe
+	aktiviert, Lighting ist "by default" ausgeschaltet.
+-	Neu: MATERIAL bekam Clear() und SetDefault()
+-	Neu: Pipe setzt automatisch weißes Standard-Material
+-	Neu: TRIANGLE3 bekam GetNormal()
+-	Neu: AABSPHERE3 bekam UpdateBounds(): die Sphere wird so vergrößert, dass
+	ein gegebener Punkt von ihr eingeschlossen wird
+-	Neu: AABBOX3 bekam Convert(Bsphere3), um die Box in eine Sphere zu überführen
+-	Neu: POLYGON3 bekam GetCenter(), GetCenterFresh(), CalculateCenter()
+-	Neu: POYLGON3 bekam GetAABB(), welche die AABB liefert, die das Polygon umschließt, sowie
+	GetAABBCalcCenter(), welche dazu das Zentrum des Polygons neu berechnet
+-	Fix: POLYGON3::Optimize() berechnet Zentrum des Polygons neu
+-	Neu: aus TODO: MATRIX::Fill(value), füllt alle Felder der Matrix mit <value>
+	MATRIX4::ToValue(), Fill() und Assign()
+
+2003-07-21 06:36 MMT
+-	Fix: Sämtliche ausgerichteten Datentypen entfernt
+-	Fix: Dreiecks- und Interpolationsfunktionen in Namespaces verschoben
+-	Neu: VSFLOAT als Datentyp übernommen
+-	Neu: TRIANGLE3 bekam Assign() und Subdivide()
+-	Neu: POLYGON3 bekam Triangulate() (aka TriangulateMMTFan()) und
+	TriangulationCost()
+
+2003-07-20 23:10 MMT
+-	Fix: KAMERA2::Get~Rotation~() korrigiert
+-	Neu: Kompass-Klasse entworfen, muss noch eingebunden werden
+
+2003-07-19 18:35 MMT
+-	Fix: VIEWCONE::Update(~) als fastcall, loop unrolled
+
+2003-07-18 17:11 MMT
+-	Neu: linemath.inl.h hinzugefügt, GetDistancePointLine() und ~LineByDir()
+-	Neu: GetDistance() für Lineseg.
+-	Fix: fastsqrt() von x*fastisqrt() geändert auf sqrt() wg. intrinsics.
+-	Neu: POLYGON3 bekam Optimize(): Positionsgleiche und kolineare Vertices werden entfernt.
+-	Neu: LINESEG bekam ProjectPoint() und ProjectPointLine(), um einen Punkt auf
+	die Gerade oder die Strecke zu projizieren.
+-	Fix: SPHERE Rendering-Fehler basierte auf der Grundfarbe 0x00000000, die verwendet
+	wurde. Änderung auf 0x00111111.
+
+2003-07-13 13:48 MMT
+-	Neu: TRIANGLE3 bekam GetArea()
+
+2003-07-10 01:00 MMT
+-	Fix: PARTICLE::Accelerate() auf variable by reference geändert
+-	Fix: Proprietäre WideFloatRadixSort() optimiert (~43 Hz für 20000 PARTICLEs)
+	Nach Einbindung in das System erhoffe ich mir ~50 Hz (GetComparableFloat() exen)
+-	Neu: MakeDWord() auf var-by-ref ergänzt
+
+2003-07-06 00:55 MMT
+-	Neu: Begonnen mit Interface IVSFloatComparable
+	Dieses erfordert die virtuelle Funktion GetComparableFloat(), auf welche
+	die eigenständige, typenfreie Radix-Sort Funktion anspricht.
+
+2003-06-26 10:02 MMT
+-	Neu: DLLISTNODE hinzugefügt, später DLLIST (doubly linked list)
+	In Planung: cyclic (doubly) linked lists, trees, ...
+-	Begonnen mit DLLIST
+
+2003-06-25 19:42 MMT
+-	Fix: Dome-Texturing geändert
+-	Neu: Problem mit Sphere *g* Texturing funktioniert nicht richtig
+-	Neu: Begonnen mit Testszene 2 (906 Vertices) Erster Hardcore-Ansatz: 18 FPS.
+-	Neu: MATERIAL-Klasse hinzugefügt, später MATERIAL-Manager
+-	Neu: Debug-Library bekam dbreak(): gleiche Funktionalität wie dprintf(),
+	aber beendet aktuellen Prozess krafts Breakpoint Exception
+
+2003-06-22 13:12 MMT
+-	Umstieg auf DirectX 9
+
+2003-06-14 13:03 MMT
+-	Neu: Shading Modes in Pipeline übernommen (SelectShadeFlat, SelectShadeGouraud)
+-	Übernahme der Dome-Primitive in die Engine, DomeLOD-Typ erstellen!
+-	Neu: Dome-Primitive in Engine übernommen
+-	Neu: Sphere-Primitive in Engine übernommen
+
+2003-06-13 23:27 MMT
+-	Fix: EngineLogo wird immer solid gerendert
+-	Neu: Klasse für Skydome begonnen, Erstellung funktioniert bereits. (01:56)
+
+2003-06-11 20:51 MMT
+-	Fix: BasicEmitter Existenzabfrage korrigiert und Loop umformuliert.
+-	Neu: BasicEmitter Anzahl der lebendigen Partikel im letzten Frame ermöglicht break
+	condition und damit eine Einsparung von MaximaleZahl-LetzterFrame Abfragen
+
+2003-06-09 11:07 MMT
+-	Fix: Fehler in MATRIX4::Assign behoben
+-	Fix: Viewcone überarbeitet
+-	Fix: Kamera-SetViewMatrix() überarbeitet
+-	Neu: Pipe-Matrixcache für Viewmatrix
+-	Neu: Pipe-Set-/Get... für Projection, View, World
+-	Fix: SetWorldMatrix() verwendet den ViewMatrix-Cache wg. performance
+-	Neu: Kamera-GenerateBillboardMatrix(), liefert BB-Rotationsmatrix
+-	Neu: Pipe-SelectAlpha/SelectBlend-Funktionen. Additives Blending, Source-Alpha, ...
+-	Fix: Circle verwendet jetzt Vertices mit Normalen.
+
+2003-06-08 19:08 MMT
+-	fastassort-Checks ISEQUAL und ISZERO korrigiert.
+-	Kamera CAMERA2 bekam LookAt(), mit der sie auf einen festen Punkt ausgerichtet wird.
+-	Get*Rotation() für Kamera; liefert Kamera-Eigenrotation und "Positions"rotation (in
+	Bezug auf den Koordinatenursprung und Welt-X)
+
+2003-06-07 06:34 MMT
+-	TIMER überprüft, timeGetTime()-Option deaktiviert. Verursacht Probleme unter WinXP
+-	CAMERA2 begonnen, um CAMERA zu überarbeiten - CAMERA2 fertiggestellt
+	Interface verbessert
+-	WINDOW bekam SetTitle()
+
+2003-05-21 13:24 MMT
+-	ParticleStorm-1, PARTICLEAC, VERTEX_T1_PARTICLE und den PS1BASICEMITTER zum Laufen
+	gebracht.
+
+2003-04-29 14:16 MMT
+-	CIRCLE und RING hinzugefügt, Funktionalität für Rendern und Export der Vertices.
+-	Fill-States für die Pipe hinzugefügt (SelectFillWireframe, -Point und -Solid)
+-	Cull-States für die Pipe (SelectCullNone, -CW und -CCW)
+
+2002-10-16 22:16 MMT
+-	Hinzufügen des Circular Controllers
+
+2002-07-20 06:21 MMT
+-	Templated Memory Manager (MEMMANAGER, MEMMANAGERDYN) eingebunden
+	Macht aber noch Ärger beim reinterpret_cast
+	
+2002-07-19 18:49 MMT
+-	TextureWarpEffect aus der Existenz gekickt. Möglichst irgendwann
+	fortsetzen. Ich setze es auf das Ende der ToDo-Liste.
+
+2002-07-17 15:01 MMT
+-	Wasser als WATEREFFECT übernommen. Keine Optimierungen.
+	Einige Funktionen fehlen noch.
+-	Wasser-Effekt komplett eingebunden (und optimiert). (17:28)
+-	RandomNumber hinzugefügt (random.h).
+-	Ein Definieren von SKYBOX_STRICT setzt die Textur zu was-immer sie gesetzt
+	wurde (aka auch auf NULL). Dieses Verhalten kann nur beim Kompilieren der 
+	Engine (Library) geändert werden. Es ist aus.
+-	FlagEffect und FlagWrapEffect hinzugefügt.
+-	Interface für RenderTargets in die Pipe2 übernommen. (21:01)
+-	TextureLockKit hinzugefügt: Hilfklasse für das LOCKen von Texturen.
+
+2002-07-16 18:33 MMT
+-	Feuer Level-1-Optimiert ("from the scratch") und in v-scope als FIREEFFECT
+	übernommen.
+-	Bösen Fehler in der PerlinNoise-Klasse behoben (Endlosschleife)
+-	PerlinNoiseEffect in die Bibliothek aufgenommen.
+
+2002-07-16 03:32 MMT
+-	FireEffect-Klasse nimmt ihren Testlauf im Sandkasten.
+	Zur Zeit unoptimiert, ineffizientes Interface.
+
+2002-07-15 00:14 MMT
+-	Die 3D-Pipeline wurde überarbeitet. Das Interface wurde etwas
+	abgewandelt, das Erstellen des Objektes blieb das selbe.
+-	Neuer Konstruktor für EngineLogo.	
+-	Skybox-Konstruktoren überarbeitet.
+-	Skybox-Verhalten überarbeitet: wenn eine Textur nicht gesetzt wird
+	(NULL) - der Boden der Skybox wird in den meisten Fällen nicht gesehen 
+	werden - wird auch kein Texturswitch beim Rendern vorgenommen. Die
+	zuletzt verwendete Textur bleibt aktiv, was das Rendern beschleunigt.
+
+2002-07-10 15:08 MMT
+-	GDI Bitmap-Klasse eingebunden.
+-	Random-Funktionen überarbeitet
+-	Common-Bibliothek eingebunden.
+-	Skybox hinzugefügt.
+	Um Speicher zu sparen, sollten Texturen auf NULL gesetzt werden.
+-	Debugger eingebunden (dprintf, dmsgbox, ...)
+-	CPU-Caps eingebunden
+-	Timer und FPS-Timer eingebunden.
+-	Window-Klasse (ex WindowHelper) eingebunden.
+-	Debugger erweitert: im Release-Modus kompilieren Debugger-Aufrufe
+	zu leerem Code und entfallen dadurch bei der Optimierung.
+	Das Definieren von KEEP_DEBUGGER umgeht dieses Verhalten.
+-	D3D-Pipeline wurde eingebunden.
+-	Testanwendung auf 0.2a umgestellt, läuft.
+-	Versionskontrolle auf Vor-Build Verhalten eingestellt ...
+
+2002-07-10 00:40 MMT
+-	EngineLogo-Klasse eingebunden
+-	2D-Blitfunktion und CreateMaterial, sowie CreateTexture eingebunden
+-	Include für "einfache Vertextypen" eingebunden
+-	Viewcone-Klasse eingebunden.
+-	Kamera-Klasse eingebunden.
+
+2002-07-09 19:39 MMT
+-	Triangle-Template eingebunden
+-	Triangle3-Typ eingebunden
+-	fastassort-Bibliothek um etliche Konstanten erweitert. Neu sind etwa die VALxdy-
+	Defines, die Ergebnisse von x durch y für x=[1;2] und y=[1;10] definieren.
+	Für die Errechnung des Dreiecksmittelpunktes wird etwa die Konstane VAL1d3 verwendet.
+-	Funktionen für Triangle-Intersection und weitere Dreiecksprobleme hinzugefügt.
+	Damit ist eine Unabhängigkeit vom Triangle3-Typ gewährleistet, so dass schnelle
+	Überprüfungen auch mit Vertexdaten etc. durchgeführt werden können, ohne typecasts
+	verwenden zu müssen.
+-	Unterstützung für Bounding Boxes hinzugefügt.	
+-	Unterstützung für Bounding Spheres hinzugefügt.	
+-	Vorerst Abschluss für mathematische Bibliothek; Beginn der 2. Phase:
+	Einbinden der grafischen Bibliothek.
+-	v-scope logo eingebunden
+-	Wert VAL1d255 zur Mathebibliothek hinzugefügt
+-	Color3 und Color4 eingebunden.
+
+2002-07-08 01:38 MMT
+-	Planes eingebunden.
+-	Linesegs eingebunden.
+-	Quaternions eingebunden.
+-	Polygon-Template (TPOLYGON) und Vektor3-Polygon (POLYGON3) eingebunden.
+-	TODO-Liste um 18 Einträge erweitert ... ;)
+
+2002-07-07 15:57 MMT
+-	Interpolationsfunktionen linear, Kosinus und kubisch hinzugefügt.
+-	Klasse für Perlin Noise auf Basis von Kosinus-Interpolation und
+	smoothing.
+-	Epsilon-Check eingebaut: EQUALS(x, y). Lokales definieren von EPSILON_OVERRIDE
+	vor einem Check setzt den Standardwert ausser Funktion. Nach Gebrauch
+	wieder undefen!
+
+2002-07-06 00:01 MMT
+-	Vektoren überarbeitet, verwenden jetzt intrinsische Speicherroutinen.
+-	Matrix4-Typ eingebunden.
+
+2002-07-04 23:41 MMT
+-	"the new vscope" Projekt beginnt: von Grund auf neu, ohne Massen-Coderecycling
+-	Aufhebung der Variablennamen-Restriktion (aka VSVECTOR3 => VECTOR3 etc.)
+-	Fastmath eingebunden für Prozessor-Intrinsics, die alten Fastmath-Codes
+	halbwegs über Bord geworfen.
+-	SSE2-enabling und disabling für Intrinsics
+-	Versionskontroll-Tool für automatisches Erhöhen des Build-Counters erstellt
+-	Rohlinge für 2D-, 3D- und 4D-Vektoren erstellt.
+-	Defines für Inlines und Byte-Aligning erstellt (automatisch nach Compiler)
+
+-------------------------------------------------------------------------------------------
+
+2002-06-11 17:55 MMT
+-	Viewcone (Viewing Frustum)-Typ hinzugefügt. Positionsinformationen
+	für AABBs (split, inside, outside) werden geliefert, Culling am Frustum ist 
+	noch nicht implementiert.
+[*]	Testszene aufsplitten in Triliste mit AABBs, dann Octree-Implementierung
+	ohne splitting.	
+-	Das proprietäre Szenenmanagement funktioniert: Triangle-Sets erhalten
+	AABBs und eine Textur-ID, um unnötiges Textur-Flipping zu vermeiden.
+	Vor dem Rendern wird überprüft, ob die AABB des Vertex-Dreiecks innerhalb
+	des Viewing Frustums liegt. Schlägt der Test fehl (VSLOC_OUTSIDE), wird
+	das Dreieck übergangen.
+-	Der Skybox-Typ verwendet nun wahlweise "brute force"-Rendering oder
+	eine VFD-Überprüfung, so dass im Normalfall nur vier bis sechs von zwölf
+	Dreiecken an die Pipeline gesendet werden, sechs hingegen prinzipiell
+	ausgelassen werden (FOV~90°).
+
+2002-06-09 23:56 MMT
+[*]	GetBoundingBox() zu den Typen hinzufügen (wo nötig) und type casts
+	in BBOX3 und BSPHERE3 ermöglichen.
+
+2002-06-09 23:23 MMT
+-	Der Triangle3-Typ wurde etwas überarbeitet, ist aber noch bedürftig.
+	Neu sind die Ray-Intersection-Funktion und ähnliche Tests.
+-	Die Testszene 2, Midage Town, nimmt inzwischen epische Ausmaße an - 
+	was den Quellcode angeht. Sie ist inzwischen so weit bereit, dass
+	nebst Türen, Fenstern und Dächern alles vorhanden ist. Die Texturierung
+	ist schlecht, aber danach hat gefälligst niemand zu fragen.
+-	Zeit für ein Backup.
+
+2002-06-09 13:41 MMT
+[*]	Erstellung Triangle3-Typ (3D-Vektoren)
+[*]	Plane-Klasse anpassen
+[*]	Bounding-Klassen übeprüfen
+[*]	View Frustrum-Klasse erstellen
+-	Pause an Triangle3, um Polygon3 zu erstellen
+-	Polygon3-Typ erstellt: typedef-Spezialisierung auf Vektor3-Polygone
+-	Umstellung von Triangle3 auf Polygon3 (Low-Level, keine Templates).
+[*]	Polygon und Polygon3 optimieren.
+-	Plane3 auf Polygon3 umgestellt.
+-	Schlecht, ganz schlecht: die alten Adrian Perez-Codes funktionieren
+	nicht. Polygon-Klasse, Triangle-Klasse und Plane-Klasse müssen
+	überarbeitet werden.
+
+2002-06-08 16:34 MMT
+-	Skyboxing-Testlauf erfolgreich. Schreibe Skybox-Klasse für VS.
+-	Skybox-Klasse beendet, Möglichkeit für normales und wireframe-
+	Rendering. Texturen werden nicht automatisch verwaltet.
+	Filterungsmethode ist standard: anisotropisch, kann geändert werden.
+
+2002-06-07 17:11 MMT
+-	Quaternion-Typ umgestaltet + neue Funktionalität
+-	Matrix-Typ umgestaltel + neue Funktionalität (23:00)
+-	Kamera-Klasse auf V-Scope-Typen und Quaternions umgestellt - 
+	voll funktionsfähig! (00:22)
+	Nach dem Zusammenklappen der Klasse und dem Killen der Kommentare
+	läuft sie noch immer perfekt. Inzwischen eingebunden in V-Scope.
+[*]	Font-Klasse erstellen.
+
+2002-06-06 21:20 MMT
+-	pointN-Typen in vectorN-Typen umbenannt.
+-	vector2-Typ umgestaltet, etwaige Funktionalität hinzugefügt.
+-	vector3-Typ umgestaltet, etwaige Funktionalität hinzugefügt. (22:44)
+-	vector4-Typ umgestaltet, etwaige Funktionalität hinzugefügt. (23:09)
+[*]	Drahtgitterwürfel als Kompass einblenden?
+
+2002-06-05 22:01 MMT
+-	Testlauf des Testprogramms im Window-Modus funktionierte, jedoch
+	unter massiven Performance-Einbußen
+-	Kamera-Klasse erstellt und einsatzbereit: muss noch in Engine
+	übernommen werden.
+
+2002-06-05 01:27 MMT
+-	Verwendung der View-Matrix
+-	Spielerbewegung implementiert: Vorwärts/Rückwärts, Rotation Links/Rechts,
+	strafing Links/Rechts.
+-	Testprogramm beinhaltet simple DirectInput-Adaption
+[*]	DirectInput-Kapselung für V-Scope schreiben.
+-	Neues Backup, dann Besuch des lokalen Betts.
+[*]	Bytearray-Tool als GUI kapseln und Batch-Funktion ermöglichen.
+[*]	Rotationsgeschwindigkeit im Testprogramm erhöhen
+
+2002-06-04 22:22 MMT
+-	Die Matrix4-Klasse bekam neue Funktionen: ToRotate() und Rotate(), die
+	die Matrix um eine bestimmte (als Vektor gegebene) Achse rotieren.
+	Die Funktion Rotate() wurde zu ToRotate() und überlädt diese:
+	Rotation gegeben durch Yaw, Pitch und Roll.
+
+2002-06-04 20:20 MMT
+-	Nicht viel passiert. Zerbsts Rechteck-Rendern aus Kapitel X implementiert.
+-	Matrix4-Typ bekam Funktionen: ToViewMatrix() und ViewMatrix().
+-	Neues Backup
+
+2002-06-02 18:06 MMT
+-	Die Blit-Funktion für 2D-Texturen unterstützt nun
+	volles Alpha-Blending (Source-Alpha).
+-	Das Testprogramm besitzt nun eine einfache Testszene,
+	und eine proprietäre Steuerung.
+-	Jetzt wird versucht, das V-Scope Logo als Ressource einzufügen
+	und später mit der Engine selbst zu verschippern.	
+-	Hilfstool geschrieben, das Dateien in Bytearrays umwandelt und
+	diese als solche in .h-Dateien speichert.
+-	Enginelogo-Klasse für die Pipeline übernommen, das Logo wird
+	aus einem Bytearray geladen.	
+-	Erstelle Vertexgewaltiges Testlevel von Hand. Wenn dieses
+	korrekt gerendert wird, werden Vertex-Puffer und indizierte
+	Listen verwendet, danach wird der BSP aufgesetzt und zu guter
+	letzt können Octrees folgen. Wird zwar alles mächtig dauern,
+	aber für den Anfang kann man es sich ja schonmal vornehmen.
+-	Testzene 2 ist auch erster Versuch für Skyboxing.
+
+2002-05-30 22:56 MMT
+-	Einführung der neuen Namespaces:
+	Hauptnamespace ist "vscope", dieser umfasst später die
+	Unternamespaces "math", "pipe" etc.
+-	Fensterklasse überarbeitet: Automatisches Releasing, bessere Handhabung.	
+-	Pipeline-Klasse überarbeitet.
+-	Matrix4-Klasse Zusatz: Projection(), ToProjection(), ToZero().
+-	Clear() und Present() zur Pipeline-Klasse hinzugefügt.
+
+2002-05-29 13:05 MMT [Redesign!]
+[*]	Beibehaltung des bisher erstellten Quellcodes,
+	aber erneute Umgestaltung der Engine. Sie ist zur
+	Zeit noch nicht optimal designt.
+-	V-SCOPE steigt komplett auf DirectX um. Sollte es jemals
+	eine OpenGL-Variante von VS geben, läuft diese unter dem
+	Namen V-SCOPE.GL. Diese Entscheidung erspart die D3D-Prefixes
+	bei den Funktions- und Variablennamen.
+[*] Operationsziel: einheitliche Variablen- und Funktionsnamen
+	um die verschiedenen Klassen und Funktionen nahtlos
+	verschmelzen zu können.
+
+2002-05-26 17:28 MMT
+-	Beginne mit dem Schreiben der Template-Bibliothek:
+	Erstellen von Primitives durch Funktionsaufrufe,
+	Rückgabe von erweiterten "Primitives"-Typen, dazu
+	ein Rendering-Interface dass genau diese Types verwenden kann,
+	wenn der User zu faul ist.
+
+2002-05-26 16:10 MMT
+-	vs_CreateTexture hinzugefügt (Pipe/Helper)
+	Lädt Texturen in einen gemanagten Pool aus einer Datei
+-	vs_BlitRect blittet eine beliebige Textur auf den Bildschirm,
+	auf Wunsch wird Alpha-Transparenz vor dem Blitten aktiviert.
+	(Es wird jedoch nicht wieder deaktiviert, also sollte man
+	diese Option mit Bedacht verwenden. Das Übliche halt.)
+-	Backup #1 erstellt.
+
+2002-05-25 17:16 MMT
+-	Enumerator-Klasse vollendet.
+-	Direct3D-Pipeline-Helferklasse vollendet: Pipe/vs_PipeD3DHelper
+	Klasse verwaltet Direct3D-Objekt und Hauptdevice, vereinfacht
+	die Verwaltung. Achtung: Der Destruktor löscht automatisch das
+	referenzierte Objekt und das Device und gibt diese frei. Um dieses
+	Verhalten zu umgehen, die Objekte vorher auf NULL setzen.
+[*]	3D-Bibliothek geplant: Erzeugung von Standardobjekten:
+	Würfel, Pyramiden, Planes, Dreiecksprismen, Zylinder, Kugeln
+-	Testanwendung beinhaltet EngineLogo-Klasse, die das Logo der
+	V-Scope Engine Transparent auf den Bildschirm blittet.	
+[*]	Diese Klasse in die Grafikbilbiothek von V-Scope
+	übernehmen	
+
+2002-05-24 16:54 MMT
+-	Types-Sources komplett eingebunden
+-	Help/Debug-Sources eingebunden
+-	Testprojekt hinzugefügt
+-	Irrtümliche Konfigurationseinstellung berichtigt:
+	Projekt verwendet Multi-Byte-Zeichensatz.
+	Achtung: Projekt ist u.U. inkompatibel zu Unicode!
+-	#ifndef/#endif-Kontrolle der Headernamen durch #pragma once ersetzt
+-	Neuen Header hinzugefügt: vs_link-DirectX.h
+	Dieser verweist auf die DirectX-Header und sorgt dafür,
+	dass diese geladen werden.
+-	Neuer Header: v-scope.h
+	Dies ist die Basisschnittstelle zu V-SCOPE und wird
+	vom User in das Endprojekt eingebunden. Der Header
+	linkt automatisch die V-SCOPE Libary mit in das Projekt.
+-	Help-Sources komplett eingebunden
+-	Versuch, die D3D-Pipeline zu adaptieren, diesen
+	jedoch wieder fallen gelassen.
+	Beginne mit dem Schreiben einer Enumerationsfunktion für Bildschirmadapter
+-	Klasse hinzugefügt: vs_D3DAdapterEnumerator.
+	Enumeriert alle Adapter samt Devices und Modi.
+	Rückgabetyp (vs_D3DAdapterList) muss überarbeitet werden - 
+	tut zwar seinen Zweck, sieht aber nicht aus ...
+	Ziel: Aussagekräftige Namen verwenden.
+
+2002-05-24 01:08 MMT
+-	Beginn des Redesigns der bestehenden Engine.
+-	Vorbereitung der GUI, Erstellung der Ordner etc.
+-	Erste Versuche unternommen, die alten Sources zu übernehmen,
+	aber wieder fallen gelassen. 
+-	Beginnen mit der Type-Bibliothek, saubere Einbindung!
+-	Alle Sourcedateien sowie Header liegen im selben Ordner
+	(Source-Unterordner des Projektes). Zur Unterscheidung
+	wird jeder Datei ein Kürzel vorangestellt, wobei folgende
+	Konvention gilt:
+	vs_<Name des Bereiches>-<Name des Elementes>,
+	etwa "vs_math-vs_point3.cpp"
+-	Es wird kein gemanagter Code verwenden
+-	VS wird in eine Klassenbibliothek gelinkt
+-	Die Pipelines werden, angelehnt an DirectX, als Objekte
+	gehandhabt. Werden diese benötigt, müssen Zeiger übergeben
+	werden.
+-	Das Define DEBUG wird verwendet, um Debugger-Kapazitäten
+	zu erkennen und zu nutzen. Dabei werden in jeder Funktion
+	intern Objekte des VS-Debug-Tracers erstellt und verwendet.
+-	KEINE GLOBALEN VARIABLEN IN TYPELIBS!
